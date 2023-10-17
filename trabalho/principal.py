@@ -2,6 +2,9 @@ import produto
 import vendas
 import random
 import os
+import matplotlib.pyplot as plt
+
+
 
 def salvar_dados_txt(lista_produtos, lista_vendas, faturamento_total):
     with open("dados_vendas.txt", "w") as arquivo:
@@ -72,7 +75,8 @@ def main():
         print("2. Impressão do faturamento detalhado")
         print("3. Cálculo de percentuais de vendas")
         print("4. Gravar os dados das vendas em um arquivo txt")
-        print("5. Sair")
+        print("5. Imprimir gráfico de vendas para as cinco mercadorias mais vendidas")
+        print("6. Sair")
 
         escolha = input("Escolha a opção: ")
 
@@ -89,6 +93,18 @@ def main():
             salvar_dados_txt(lista_produtos, lista_vendas, faturamento_total)
             print("Dados salvos em 'dados_vendas.txt'")
         elif escolha == "5":
+            # Gráfico das cinco mercadorias mais vendidas
+            top5_vendas = sorted(lista_vendas, key=lambda venda: venda.quantidade, reverse=True)[:5]
+            mercadorias = [venda.produto.id for venda in top5_vendas]
+            quantidades = [venda.quantidade for venda in top5_vendas]
+
+            plt.bar(mercadorias, quantidades)
+            plt.xlabel('Mercadorias')
+            plt.ylabel('Quantidades Vendidas')
+            plt.title('Top 5 Mercadorias Mais Vendidas')
+            plt.xticks(mercadorias)
+            plt.show()
+        elif escolha == "6":
             break
         else:
             print("Opção inválida. Escolha uma opção válida.")
